@@ -1,9 +1,11 @@
 # QuickSort Engineering Lab
 
+[Live Demo](https://quick-sort-visualizer-demo.netlify.app)
+[Bonus](https://bubble-sort-magic.lovable.app/)
+
 A high-performance QuickSort library with both recursive and iterative implementations, comprehensive testing, and a modern web-based visualizer. Developed as part of the ITI Scholarships Program - Vibe Coding and Working with APIs.
 
 ![QuickSort Visualizer](file.jpg)
-[Live Demo](https://quick-sort-visualizer-demo.netlify.app)
 
 ## 🚀 Features
 
