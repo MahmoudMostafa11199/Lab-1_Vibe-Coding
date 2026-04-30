@@ -1,0 +1,58 @@
+// Function to implement the quick sort algorithm
+
+
+// Explain this code and how the pivot selection works
+
+
+// Explain this QuickSort implementation step by step. What is the role of the pivot and the partition function?
+
+
+// Convert this explanation into a Markdown file summary
+
+
+// optimize this QuickSort for better memory usage and performance
+
+
+// implement iterative version and compare between recursive and iterative
+
+
+// analyze the time and space complexity of QuickSort and compare with MergeSort, HeapSort, and built-in sorting methods 
+
+
+// Using Jest, generate unit tests for both quickSort and quickSortIterative. 
+Ensure the tests cover these scenarios:
+- An empty array.
+- An array with one element.
+- An already sorted array.
+- A reverse-sorted array.
+- An array with duplicate elements.
+- A large array with random numbers.
+
+
+// Create a clean, responsive HTML page with Tailwind CSS. It should have an input field for numbers (comma-separated), a 'Sort' button, and a results section to display the sorted array using the QuickSort algorithm. Make it look modern.
+
+
+// Find and fix the bug in this QuickSort code
+
+
+// Add error handling and input validation to the quickSort function. Ensure it handles cases where the input is not an array, contains null or undefined values, or contains non-numeric strings.
+
+
+// Generate a benchmark script using performance.now() to compare my quickSortIterative against the built-in .sort() method using a random array of 10,000 numbers.
+
+
+// I have completed a QuickSort lab using an AI-assisted workflow. I started with GitHub Copilot using these prompts:
+- Function to implement the quick sort algorithm
+- Explain this code and how the pivot selection works
+- Explain this QuickSort implementation step by step. What is the role of the pivot and the partition function?
+- Convert this explanation into a Markdown file summary
+- optimize this QuickSort for better memory usage and performance
+Then, I continued with Gemini Code Assist to:
+Implement the Iterative version for stack safety.
+Conduct Benchmarking against the built-in .sort() method.
+Perform Debugging and add Error Handling.
+Build a Web Interface for user input.
+Please generate a professional Markdown (.md) documentation that summarizes this entire process, includes a performance comparison table, and highlights the key engineering learnings as required in Step 10 of the lab.
+
+
+// open my local QuickSort web app at http://127.0.0.1:5500/Labs/index.html. If there's a cookie banner, close it. Then, take a screenshot of the homepage, extract the main menu items, and give me a brief description of the visible sections.

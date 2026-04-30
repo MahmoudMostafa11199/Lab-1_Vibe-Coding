@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickSort Visualizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-slide-in {
+        animation: slideIn 0.3s ease-out;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4"
+  >
+    <div
+      class="max-w-2xl w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 animate-slide-in"
+    >
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+          <i class="fas fa-sort-amount-down"></i>
+          QuickSort Visualizer
+        </h1>
+        <p class="text-indigo-100 text-sm mt-2">
+          Visualize the QuickSort Algorithm in Action
+        </p>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <!-- Algorithm Selection -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-slate-700"
+            >Select Algorithm Type</label
+          >
+          <div class="flex gap-3">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="algorithm"
+                value="recursive"
+                checked
+                class="w-4 h-4 text-indigo-600"
+              />
+              <span class="text-sm">Recursive</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="algorithm"
+                value="iterative"
+                class="w-4 h-4 text-indigo-600"
+              />
+              <span class="text-sm">Iterative</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="space-y-2">
+          <label
+            for="numbersInput"
+            class="block text-sm font-semibold text-slate-700"
+          >
+            Enter Numbers
+          </label>
+          <input
+            type="text"
+            id="numbersInput"
+            placeholder="e.g., 10, -5, 34, 2, 8, 1"
+            dir="ltr"
+            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-400 font-mono"
+          />
+          <p class="text-[11px] text-slate-400">
+            Separate values with commas (e.g., 5, 2, 9, 1)
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3">
+          <button
+            onclick="handleSort()"
+            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-sort"></i>
+            Sort Array
+          </button>
+          <button
+            onclick="handleRandom()"
+            class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-emerald-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-random"></i>
+            Random Numbers
+          </button>
+          <button
+            onclick="handleClear()"
+            class="px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-eraser"></i>
+          </button>
+        </div>
+
+        <!-- Results Section -->
+        <div
+          id="resultContainer"
+          class="hidden space-y-4 pt-4 border-t border-slate-200"
+        >
+          <div class="space-y-3">
+            <h2
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2"
+            >
+              <i class="fas fa-chart-line"></i>
+              Sorted Result
+            </h2>
+            <div
+              id="resultOutput"
+              class="flex flex-wrap gap-2 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100 min-h-[60px] items-center"
+            >
+              <!-- Resulting badges will be injected here -->
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h2
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2"
+            >
+              <i class="fas fa-chart-simple"></i>
+              Statistics
+            </h2>
+            <div id="statsOutput" class="grid grid-cols-2 gap-3 text-sm">
+              <!-- Stats will be injected here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div
+          id="errorMessage"
+          class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm"
+        >
+          <i class="fas fa-exclamation-triangle mr-2"></i>
+          <span id="errorText"></span>
+        </div>
+      </div>
+    </div>
+
+    <script src="quick-sort.js"></script>
+    <script>
+      // DOM Elements
+      const numbersInput = document.getElementById('numbersInput');
+      const resultContainer = document.getElementById('resultContainer');
+      const resultOutput = document.getElementById('resultOutput');
+      const statsOutput = document.getElementById('statsOutput');
+      const errorMessage = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+
+      // Function to show error
+      function showError(message) {
+        errorText.textContent = message;
+        errorMessage.classList.remove('hidden');
+        resultContainer.classList.add('hidden');
+        setTimeout(() => {
+          errorMessage.classList.add('hidden');
+        }, 3000);
+      }
+
+      // Function to hide error
+      function hideError() {
+        errorMessage.classList.add('hidden');
+      }
+
+      // Parse input and validate
+      function parseInput(inputValue) {
+        const arr = inputValue
+          .split(',')
+          .map((n) => n.trim())
+          .filter((n) => n !== '')
+          .map(Number);
+
+        if (arr.length === 0) {
+          throw new Error('Please enter valid numbers');
+        }
+
+        // Check for invalid numbers
+        if (arr.some(isNaN)) {
+          throw new Error('All values must be valid numbers');
+        }
+
+        return arr;
+      }
+
+      // Generate random numbers
+      function generateRandomNumbers() {
+        const count = Math.floor(Math.random() * 10) + 5; // 5-15 numbers
+        const numbers = [];
+        for (let i = 0; i < count; i++) {
+          numbers.push(Math.floor(Math.random() * 100) - 20); // -20 to 79
+        }
+        return numbers;
+      }
+
+      // Render sorted numbers with animation
+      function renderNumbers(numbers) {
+        resultOutput.innerHTML = numbers
+          .map(
+            (num, index) => `
+            <span class="px-3 py-1 bg-white text-indigo-600 rounded-lg text-sm font-bold border border-indigo-200 shadow-sm hover:scale-105 transition-transform cursor-default" style="animation: slideIn 0.2s ease-out ${index * 0.02}s both">
+              ${num}
+            </span>
+          `,
+          )
+          .join('');
+      }
+
+      // Render statistics
+      function renderStats(sortedArray, timeMs) {
+        const stats = {
+          'Total Elements': sortedArray.length,
+          'Minimum Value': Math.min(...sortedArray),
+          'Maximum Value': Math.max(...sortedArray),
+          Sum: sortedArray.reduce((a, b) => a + b, 0),
+          Average: (
+            sortedArray.reduce((a, b) => a + b, 0) / sortedArray.length
+          ).toFixed(2),
+          'Execution Time': `${timeMs.toFixed(2)} ms`,
+        };
+
+        statsOutput.innerHTML = Object.entries(stats)
+          .map(
+            ([key, value]) => `
+            <div class="bg-slate-50 rounded-lg p-2 border border-slate-200">
+              <div class="text-xs text-slate-500">${key}</div>
+              <div class="text-lg font-bold text-indigo-600" dir="ltr">${value}</div>
+            </div>
+          `,
+          )
+          .join('');
+      }
+
+      // Main sort function
+      function handleSort() {
+        try {
+          hideError();
+
+          const inputValue = numbersInput.value;
+          let arr;
+
+          if (inputValue.trim() === '') {
+            throw new Error('Please enter numbers first');
+          }
+
+          arr = parseInput(inputValue);
+
+          // Get algorithm type
+          const algorithm = document.querySelector(
+            'input[name="algorithm"]:checked',
+          ).value;
+
+          // Measure performance
+          const startTime = performance.now();
+          let sorted;
+
+          if (algorithm === 'recursive') {
+            sorted = quickSort([...arr]);
+          } else {
+            sorted = quickSortIterative([...arr]);
+          }
+
+          const endTime = performance.now();
+          const timeMs = endTime - startTime;
+
+          // Render results
+          renderNumbers(sorted);
+          renderStats(sorted, timeMs);
+          resultContainer.classList.remove('hidden');
+        } catch (error) {
+          showError(error.message);
+          console.error('Sorting error:', error);
+        }
+      }
+
+      // Generate random numbers
+      function handleRandom() {
+        try {
+          hideError();
+          const randomNumbers = generateRandomNumbers();
+          numbersInput.value = randomNumbers.join(', ');
+          handleSort(); // Automatically sort them
+        } catch (error) {
+          showError(error.message);
+        }
+      }
+
+      // Clear input and results
+      function handleClear() {
+        numbersInput.value = '';
+        resultContainer.classList.add('hidden');
+        hideError();
+        numbersInput.focus();
+      }
+
+      // Event listener for Enter key
+      numbersInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          handleSort();
+        }
+      });
+
+      // Auto-clear error when user starts typing
+      numbersInput.addEventListener('input', function () {
+        hideError();
+        if (
+          resultContainer.classList.contains('hidden') === false &&
+          this.value === ''
+        ) {
+          resultContainer.classList.add('hidden');
+        }
+      });
+
+      // Example usage in console for testing
+      console.log('Recursive:', quickSort([3, 6, 8, 10, 1, 2, 1]));
+      console.log('Iterative:', quickSortIterative([3, 6, 8, 10, 1, 2, 1]));
+    </script>
+  </body>
+</html>
